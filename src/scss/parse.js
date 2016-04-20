@@ -3299,7 +3299,7 @@ function getRuleset() {
  * @returns {Number} Number of spaces in a row starting with the given token.
  */
 function checkS(i) {
-  return i < tokensLength && tokens[i].ws ? tokens[i].ws_last - i + 1 : 0;
+  return i < tokensLength && tokens[i].whiteSpace ? tokens[i].whiteSpace_last - i + 1 : 0;
 }
 
 /**
@@ -3308,9 +3308,9 @@ function checkS(i) {
  */
 function getS() {
   let startPos = pos;
-  let x = joinValues(pos, tokens[pos].ws_last);
+  let x = joinValues(pos, tokens[pos].whiteSpace_last);
 
-  pos = tokens[pos].ws_last + 1;
+  pos = tokens[pos].whiteSpace_last + 1;
 
   var token = tokens[startPos];
   return newNode(NodeType.SType, x, token.ln, token.col);

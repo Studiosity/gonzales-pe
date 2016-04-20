@@ -1,2 +1,6 @@
 docs/
+log/
+node_modules/
+scripts/
+src/
 test/

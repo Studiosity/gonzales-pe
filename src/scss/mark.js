@@ -6,14 +6,14 @@ module.exports = (function() {
   /**
   * Mark whitespaces and comments
   */
-  function markSC(tokens) {
+  function markSpaceComments(tokens) {
     let tokensLength = tokens.length;
-    let ws = -1; // Flag for whitespaces
-    let sc = -1; // Flag for whitespaces and comments
-    let t; // Current token
+    let whiteSpace = -1; // Flag for whitespaces
+    let spaceComment = -1; // Flag for whitespaces and comments
+    let token; // Current token
 
     // For every token in the token list, mark spaces and line breaks
-    // as spaces (set both `ws` and `sc` flags). Mark multiline comments
+    // as spaces (set both `whiteSpace` and `sc` flags). Mark multiline comments
     // with `sc` flag.
     // If there are several spaces or tabs or line breaks or multiline
     // comments in a row, group them: take the last one's index number
@@ -21,43 +21,43 @@ module.exports = (function() {
     // e.g., `ws_last = 7` for a group of whitespaces or `sc_last = 9`
     // for a group of whitespaces and comments.
     for (var i = 0; i < tokensLength; i++) {
-      t = tokens[i];
-      switch (t.type) {
+      token = tokens[i];
+      switch (token.type) {
         case TokenType.Space:
         case TokenType.Tab:
         case TokenType.Newline:
-          t.ws = true;
-          t.sc = true;
+          token.whiteSpace = true;
+          token.spaceComment = true;
 
-          if (ws === -1) ws = i;
-          if (sc === -1) sc = i;
+          if (whiteSpace === -1) whiteSpace = i;
+          if (spaceComment === -1) spaceComment = i;
 
           break;
         case TokenType.CommentML:
         case TokenType.CommentSL:
-          if (ws !== -1) {
-            tokens[ws].ws_last = i - 1;
-            ws = -1;
+          if (whiteSpace !== -1) {
+            tokens[whiteSpace].whiteSpace_last = i - 1;
+            whiteSpace = -1;
           }
 
-          t.sc = true;
+          token.spaceComment = true;
 
           break;
         default:
-          if (ws !== -1) {
-            tokens[ws].ws_last = i - 1;
-            ws = -1;
+          if (whiteSpace !== -1) {
+            tokens[whiteSpace].whiteSpace_last = i - 1;
+            whiteSpace = -1;
           }
 
-          if (sc !== -1) {
-            tokens[sc].sc_last = i - 1;
-            sc = -1;
+          if (spaceComment !== -1) {
+            tokens[spaceComment].spaceComment_last = i - 1;
+            spaceComment = -1;
           }
       }
     }
 
-    if (ws !== -1) tokens[ws].ws_last = i - 1;
-    if (sc !== -1) tokens[sc].sc_last = i - 1;
+    if (whiteSpace !== -1) tokens[whiteSpace].whiteSpace_last = i - 1;
+    if (spaceComment !== -1) tokens[spaceComment].spaceComment_last = i - 1;
   }
 
   /**
@@ -68,7 +68,7 @@ module.exports = (function() {
     let ps = []; // Parentheses
     let sbs = []; // Square brackets
     let cbs = []; // Curly brackets
-    let t; // Current token
+    let token; // Current token
 
     // For every token in the token list, if we meet an opening (left)
     // bracket, push its index number to a corresponding array.
@@ -78,15 +78,15 @@ module.exports = (function() {
     // the last index number from the array and find a token with
     // this index number) and save right bracket's index as a reference:
     for (var i = 0; i < tokensLength; i++) {
-      t = tokens[i];
-      switch (t.type) {
+      token = tokens[i];
+      switch (token.type) {
         case TokenType.LeftParenthesis:
           ps.push(i);
           break;
         case TokenType.RightParenthesis:
           if (ps.length) {
-            t.left = ps.pop();
-            tokens[t.left].right = i;
+            token.left = ps.pop();
+            tokens[token.left].right = i;
           }
           break;
         case TokenType.LeftSquareBracket:
@@ -94,8 +94,8 @@ module.exports = (function() {
           break;
         case TokenType.RightSquareBracket:
           if (sbs.length) {
-            t.left = sbs.pop();
-            tokens[t.left].right = i;
+            token.left = sbs.pop();
+            tokens[token.left].right = i;
           }
           break;
         case TokenType.LeftCurlyBracket:
@@ -103,8 +103,8 @@ module.exports = (function() {
           break;
         case TokenType.RightCurlyBracket:
           if (cbs.length) {
-            t.left = cbs.pop();
-            tokens[t.left].right = i;
+            token.left = cbs.pop();
+            tokens[token.left].right = i;
           }
           break;
       }
@@ -113,6 +113,6 @@ module.exports = (function() {
 
   return function(tokens) {
     markBrackets(tokens);
-    markSC(tokens);
+    markSpaceComments(tokens);
   };
 })();
