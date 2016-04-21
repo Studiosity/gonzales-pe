@@ -1,9 +1,9 @@
 {
   "name": "gonzales-pe-sl",
   "description": "Temporary gonzales-pe fork for sass-lint",
-  "version": "3.2.6",
-  "homepage": "http://github.com/tonyganch/gonzales-pe",
-  "bugs": "http://github.com/tonyganch/gonzales-pe/issues",
+  "version": "3.2.7",
+  "homepage": "https://github.com/DanPurdy/gonzales-pe",
+  "bugs": "https://github.com/DanPurdy/gonzales-pe/issues",
   "license": "MIT",
   "author": {
     "name": "Dan Purdy",
@@ -13,7 +13,7 @@
   "main": "./lib/gonzales",
   "repository": {
     "type": "git",
-    "url": "http://github.com/tonyganch/gonzales-pe.git"
+    "url": "https://github.com/DanPurdy/gonzales-pe.git"
   },
   "scripts": {
     "autofix-tests": "./scripts/build.sh && ./scripts/autofix-tests.sh",
