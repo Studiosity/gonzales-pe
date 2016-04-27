@@ -13,6 +13,11 @@ worked before.
 
 As of 3.2.6 The sasstools team decided to fork and maintain a separate copy of gonzales-pe named gonzales-pe-sl. Our intention is to still provide fixes etc back into gonzales-pe but at the same time allow sass-lint and anyone else who feels like they want to depend on this fork to continue and progress with any issues that remain unfixed/unmerged in the base repository. We will be looking to support this fork for as long as is necessary.
 
+## 27.04.2016, Version 3.2.8
+:green_apple: - Fixed a nested child selectors bug for Sass and SCSS format [#8](https://github.com/DanPurdy/gonzales-pe/pull/8)
+
+:green_apple: - Fixed an in issue with functions inside `url()` [#5](https://github.com/DanPurdy/gonzales-pe/pull/5)
+
 ## 21.04.2016, Version 3.2.7
 :green_apple: - Removed postinstall bash specific scripts, to work on the development version you will manually need to run these now but installing from NPM now won't fail for all users not using bash.
 
